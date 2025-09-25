@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage as FormikErrorMassage } from "formik"
 import * as Yup from "yup";
 import type { Note, NoteTag } from "../../types/note";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNote, type NewNote } from "../../components/services/noteService";
+import { createNote, type NewNote } from "../../services/noteService";
 
 const validationSchema = Yup.object({
     title: Yup.string()

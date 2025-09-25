@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import css from './App.module.css';
-import { fetchNotes } from '../services/noteService';
+import { fetchNotes } from '../../services/noteService';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDebounce } from 'use-debounce';
