@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote, type NewNote } from "../../components/services/noteService";
 
 const validationSchema = Yup.object({
-    titel: Yup.string()
+    title: Yup.string()
         .min(3, "Minimum 3 characters required")
         .max(50, "Maximum 50 characters required")
         .required("Title is required"),
@@ -53,6 +53,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                         <label htmlFor="title">Title</label>
                         <Field
                             id="title"
+                            name="title"
                             type="text"
                             className={css.input}
                         />
@@ -68,6 +69,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                         <Field
                             id="content"
                             name="content"
+                            as="textarea"
                             rows={8}
                             className={css.textarea}
                         />
@@ -81,6 +83,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                         <Field
                             id="tag"
                             name="tag"
+                            as="select"
                             className={css.select}
                         >
                             <option value="Todo">Todo</option>
@@ -96,7 +99,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                     </div>
 
                     <div className={css.actions}>
-                        <button type="button" className={css.cancelButton}>
+                        <button type="button" className={css.cancelButton} onClick={onCancel}>
                             Cancel
                         </button>
                         <button
