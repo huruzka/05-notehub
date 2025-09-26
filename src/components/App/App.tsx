@@ -53,8 +53,8 @@ function App() {
         <SearchBox value={searchQuery} onChange={setSearchQuery} />
         {notesData && notesData.totalPages > 1 && (
           <Pagination
-            pageCount={notesData.totalPages}
-            curPage={page}
+            totalPages={notesData.totalPages}
+            currentPage={page}
             onPageChange={handlePageClick}
           />
         )}

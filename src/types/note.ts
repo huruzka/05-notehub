@@ -4,8 +4,7 @@ export interface Note{
     id: string;
     title: string;
     content: string;
-    tag: string;
-    totalPages: number;
-    page: number;
-    perPage: number;
+    tag: NoteTag;
+    createdAt: string;
+    updatedAt: string;
 }

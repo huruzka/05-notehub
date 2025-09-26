@@ -1,5 +1,5 @@
 import css from "./NoteForm.module.css"
-import { Formik, Form, Field, ErrorMessage as FormikErrorMassage } from "formik";
+import { Formik, Form, Field, ErrorMessage as FormikErrorMessage } from "formik";
 import * as Yup from "yup";
 import type { Note, NoteTag } from "../../types/note";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,7 +10,7 @@ const validationSchema = Yup.object({
         .min(3, "Minimum 3 characters required")
         .max(50, "Maximum 50 characters required")
         .required("Title is required"),
-    content: Yup.string().max(500, "Too long. 500 characters required"),
+    content: Yup.string().max(500, "Content must be at most 500 characters"),
     tag: Yup.mixed<NoteTag>()
         .oneOf(["Todo", "Work", "Personal", "Meeting", "Shopping"], "Invalid tag")
         .required("Tag is required")
@@ -43,8 +43,11 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
-                createMutation.mutate(values);
-                actions.resetForm();
+                createMutation.mutate(values, {
+                    onSuccess: () => {
+                        actions.resetForm()
+                    },
+                });
             }}
         >
             {({ isValid }) => (
@@ -57,7 +60,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                             type="text"
                             className={css.input}
                         />
-                        <FormikErrorMassage
+                        <FormikErrorMessage
                             name="title"
                             component="span"
                             className={css.error}
@@ -73,7 +76,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                             rows={8}
                             className={css.textarea}
                         />
-                        <FormikErrorMassage
+                        <FormikErrorMessage
                             name="content" className={css.error}
                         />
                     </div>
@@ -92,7 +95,7 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                             <option value="Meeting">Meeting</option>
                             <option value="Shopping">Shopping</option>
                         </Field>
-                        <FormikErrorMassage
+                        <FormikErrorMessage
                             name="tag"
                             className={css.error}
                         />
@@ -107,7 +110,6 @@ function NoteForm({ onCancel, onCreated }: NoteFormProps) {
                             className={css.submitButton}
                             disabled={!isValid || createMutation.isPending}
                         >
-                            Create note
                             {createMutation.isPending ? "Creating..." : "Create note"}
                         </button>
                     </div>
